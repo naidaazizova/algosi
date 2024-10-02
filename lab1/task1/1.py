@@ -1,10 +1,10 @@
 def insertion_sort(n, spis):
     for i in range(1, n):
-        for p in range(i, 0, -1):
-            if spis[p] < spis[p-1]:
-                spis[p], spis[p-1] = spis[p-1], spis[p]
-            else:
-                break
+        for p in range(i-1, -1, -1):
+            if spis[i] < spis[p]:
+                spis[i], spis[p] = spis[p], spis[i]
+                i, p = p, i
+        
     return spis
 
 import time, tracemalloc
