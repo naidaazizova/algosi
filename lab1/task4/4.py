@@ -24,6 +24,4 @@ with open('output.txt','w') as file:
 file.close()
 
 print(time.perf_counter() - t_start)
-print(tracemalloc.get_traced_memory()[1]/2**20,'Mб')
-
-    
+print(tracemalloc.get_traced_memory()[1]/2**20,'Mб')   
