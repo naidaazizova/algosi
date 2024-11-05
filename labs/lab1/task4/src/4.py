@@ -14,12 +14,12 @@ import time, tracemalloc
 t_start=time.perf_counter()
 tracemalloc.start()
 
-file=open('input.txt')
+file=open('../txtf/input.txt', 'r')
 a=[ch for ch in file.readline().split()]
 v=file.readline()
 file.close()
 
-with open('output.txt','w') as file:
+with open('../txtf/output.txt', 'w') as file:
     file.write(', '.join(map(str, linear_search(a, v))))
 file.close()
 

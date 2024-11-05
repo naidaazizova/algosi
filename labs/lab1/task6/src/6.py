@@ -15,12 +15,12 @@ def check(spis):
             return False
     return True
 
-with open('input.txt', 'r') as file:
+with open('../txtf/input.txt', 'r') as file:
     n=int(file.readline())
     spis = list(map(int, file.readline().split()))
 file.close()
 
-with open('output.txt', 'w') as file:
+with open('../txtf/output.txt', 'w') as file:
     file.write(' '.join(map(str, bubble_sort(n, spis))))
 file.close()
 

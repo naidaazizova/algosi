@@ -14,14 +14,14 @@ import time, tracemalloc
 t_start=time.perf_counter()
 tracemalloc.start()
 
-file=open('input.txt')
+file=open('../txtf/input.txt', 'r')
 n=int(file.readline())
 mas=[int(ch) for ch in file.readline().split()]
 file.close()
 
 itog_spis=selection_sort(n, mas)
 
-with open('output.txt', 'w') as file:
+with open('../txtf/output.txt', 'w') as file:
     file.write(' '.join(map(str, itog_spis)))
 file.close()
 
