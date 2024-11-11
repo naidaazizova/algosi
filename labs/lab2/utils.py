@@ -4,6 +4,7 @@ def read_input(file_path):
         arr = list(map(int, file.readline().strip().split()))
     return n, arr
 
+
 def write_output(file_path, result):
     with open(file_path, "w") as file:
         if isinstance(result, list):
