@@ -1,5 +1,5 @@
 import time, tracemalloc
-from labs.lab2.utils import read_input, write_output
+from lab2.utils import read_input, write_output
 
 def merge_and_count(arr, temp_arr, left, right, start_time, time_limit=2):
     if time.perf_counter() - start_time > time_limit:

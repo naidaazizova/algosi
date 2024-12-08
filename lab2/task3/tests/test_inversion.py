@@ -1,5 +1,5 @@
 import unittest
-from labs.lab2.task3.src.task3 import count_inversions
+from lab2.task3.src.task3 import count_inversions
 
 class TestInversion(unittest.TestCase):
 

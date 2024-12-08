@@ -1,5 +1,5 @@
 import unittest
-from labs.lab2.task1.src.task1 import merge_sort
+from lab2.task1.src.task1 import merge_sort
 
 
 class TestMergeSort(unittest.TestCase):

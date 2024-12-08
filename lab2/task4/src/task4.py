@@ -1,6 +1,6 @@
 import time
 import tracemalloc
-from labs.lab2.utils import write_output
+from lab2.utils import write_output
 
 def binary_search(a, s):
     low = 0

@@ -1,5 +1,5 @@
 import time, tracemalloc
-from labs.lab2.utils import read_input, write_output
+from lab2.utils import read_input, write_output
 
 def merge_sort(lst):
     if len(lst) <= 1:
