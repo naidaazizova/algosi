@@ -1,69 +1,50 @@
-import time, tracemalloc
-from lab2.utils import read_input, write_output
+import utils
+import os
 
-def merge_and_count(arr, temp_arr, left, right, start_time, time_limit=2):
-    if time.perf_counter() - start_time > time_limit:
-        raise TimeoutError("Время выполнения превышено")
+def merge(A, p, q, r, inversion_count):
+    n1 = q - p + 1
+    n2 = r - q
 
-    if left == right:
-        return 0
+    L = [0] * (n1 + 1)
+    R = [0] * (n2 + 1)
 
-    mid = (left + right) // 2
-    inv_count = 0
+    for i in range(n1):
+        L[i] = A[p + i]
+    for j in range(n2):
+        R[j] = A[q + j + 1]
 
-    inv_count += merge_and_count(arr, temp_arr, left, mid, start_time, time_limit)
-    inv_count += merge_and_count(arr, temp_arr, mid + 1, right, start_time, time_limit)
-    inv_count += merge(arr, temp_arr, left, mid, right)
-
-    return inv_count
-
-def merge(arr, temp_arr, left, mid, right):
-    i, j, k = left, mid + 1, left
-    inv_count = 0
-
-    while i <= mid and j <= right:
-        if arr[i] <= arr[j]:
-            temp_arr[k] = arr[i]
+    i, j, k = 0, 0, p
+    while i < n1 and j < n2:
+        if L[i] <= R[j]:
+            A[k] = L[i]
             i += 1
         else:
-            temp_arr[k] = arr[j]
-            inv_count += (mid - i + 1)
+            A[k] = R[j]
             j += 1
+            inversion_count += (n1 - i)
         k += 1
 
-    while i <= mid:
-        temp_arr[k] = arr[i]
+    while i < n1:
+        A[k] = L[i]
         i += 1
         k += 1
-
-    while j <= right:
-        temp_arr[k] = arr[j]
+    while j < n2:
+        A[k] = R[j]
         j += 1
         k += 1
+    return inversion_count
 
-    for i in range(left, right + 1):
-        arr[i] = temp_arr[i]
+def merge_sort(A, p, r, inversion_count):
+  if p < r:
+      q = (p+r) // 2
+      inversion_count = merge_sort(A, p, q, inversion_count)
+      inversion_count = merge_sort(A, q + 1, r, inversion_count)
+      inversion_count = merge(A, p, q, r, inversion_count)
+  return inversion_count
 
-    return inv_count
-
-def count_inversions(arr, n, time_limit=2):
-    temp_arr = [0] * n
-    start_time = time.perf_counter()
-    try:
-        return merge_and_count(arr, temp_arr, 0, n - 1, start_time, time_limit)
-    except TimeoutError:
-        return "Время выполнения превышено"
-
-
-if __name__ == "__main__":
-    t_start = time.perf_counter()
-    tracemalloc.start()
-
-    n, arr = read_input("../task3/txtf/input.txt")
-    result = count_inversions(arr, n)
-
-    write_output("../task3/txtf/output.txt", result)
-
-    print("Время работы: %s секунд" % (time.perf_counter() - t_start))
-    print("Max memory:", tracemalloc.get_traced_memory()[1] / 2 ** 20, "MB")
-    tracemalloc.stop()
+if __name__ == '__main__':
+    project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..'))
+    input_file_path = os.path.join(project_root, 'lab2', 'task3', 'txtf', 'input.txt')
+    data = utils.read_input(input_file_path)
+    result = merge_sort(data[1], 0, data[0] - 1, 0)
+    utils.print_task_data(2, 3, data, result)

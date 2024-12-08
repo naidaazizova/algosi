@@ -1,35 +1,27 @@
-import unittest
-from lab2.task4.src.task4 import binary_search
+import time, tracemalloc
+import os
+import utils
+from lab2.task4.src.task4 import find_index
 
-class TestBinarySearch(unittest.TestCase):
+def test_binary_search():
+    tracemalloc.start()
+    t_start = time.perf_counter()
 
-    def test_should_find_first_elem(self):
-        data = [1, 2, 3, 4, 5]
-        target = 1
-        expected_index = 0
-        result = binary_search(data, target)
-        self.assertEqual(result, expected_index)
+    project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..'))
+    input_file_path = os.path.join(project_root, 'lab2', 'task4', 'txtf', 'input.txt')
+    data = utils.read_input(input_file_path)
 
-    def test_should_return_minusone_for_missing_elem(self):
-        data = [1, 2, 3, 4, 5]
-        target = 6
-        expected_index = -1
-        result = binary_search(data, target)
-        self.assertEqual(result, expected_index)
+    indexx = find_index(data[1], data[3], data[0])
 
-    def test_should_find_elem_in_list(self):
-        data = [1, 2, 3, 4, 5]
-        target = 5
-        expected_index = 4
-        result = binary_search(data, target)
-        self.assertEqual(result, expected_index)
+    project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..'))
+    output_file_path = os.path.join(project_root, 'lab2', 'task4', 'txtf', 'output.txt')
+    utils.write_output(output_file_path, [indexx])
 
-    def test_should_find_single_element(self):
-        data = [9]
-        target = 9
-        expected_index = 0
-        result = binary_search(data, target)
-        self.assertEqual(result, expected_index)
+    print('пример для теста')
+    utils.print_test(time.perf_counter() - t_start, tracemalloc.get_traced_memory()[1] / (1024 ** 2))
+    tracemalloc.stop()
 
 if __name__ == '__main__':
-    unittest.main()
+    test_binary_search()
+
+

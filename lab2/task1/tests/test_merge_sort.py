@@ -1,32 +1,44 @@
-import unittest
+import time, tracemalloc
+import random
+import utils
+import os
 from lab2.task1.src.task1 import merge_sort
 
+def test_merge_sort():
+    t_start = time.perf_counter()
+    tracemalloc.start()
 
-class TestMergeSort(unittest.TestCase):
-    def test_should_sort_positive_num(self):
-        data = [4, 8, 2, 1, 5]
-        result = merge_sort(data)
-        self.assertEqual(result, [1, 2, 4, 5, 8])
+    project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..'))
+    input_file_path = os.path.join(project_root, 'lab2', 'task1', 'txtf', 'input.txt')
+    data = utils.read_input(input_file_path)
 
-    def test_should_sort_negative_num(self):
-        data = [-4, -8, -2, -1, -5]
-        result = merge_sort(data)
-        self.assertEqual(result, [-8, -5, -4, -2, -1])
+    arr_sort = merge_sort(data[1],0, len(data[1])-1)
 
-    def test_should_sort_single_elem(self):
-        data = [2]
-        result = merge_sort(data)
-        self.assertEqual(result, [2])
+    project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..'))
+    output_file_path = os.path.join(project_root, 'lab2', 'task1', 'txtf', 'output.txt')
+    utils.write_output(output_file_path, [arr_sort])
 
-    def test_should_sort_mixed_num(self):
-        data = [4, -8, 2, -1, 5]
-        result = merge_sort(data)
-        self.assertEqual(result, [-8, -1, 2, 4, 5])
+    print('Пример для теста')
+    utils.print_test(time.perf_counter() - t_start, tracemalloc.get_traced_memory()[1] / (1024 ** 2))
+    tracemalloc.stop()
 
-    def test_should_sort_dublicates(self):
-        data = [4, 8, 8, 1, 5]
-        result = merge_sort(data)
-        self.assertEqual(result, [1, 4, 5, 8, 8])
+def test_merge_sort2():
+    worst_case = sorted([random.randint(1, 1000) for _ in range(10000)], reverse=True)
+    middle_case = [random.randint(1, 1000) for _ in range(10000)]
+    best_case = sorted([random.randint(1, 1000) for _ in range(10000)])
+    cases = [worst_case, middle_case, best_case]
+    cases_name = ['худший случай', 'средний случай', 'лучший случай']
+
+    for i, arr in enumerate(cases):
+        t_start = time.perf_counter()
+        tracemalloc.start()
+        arr_sort = merge_sort(arr, 0, len(arr) - 1)
+        print(cases_name[i])
+        utils.print_test(time.perf_counter() - t_start, tracemalloc.get_traced_memory()[1] / (1024 ** 2))
+        tracemalloc.stop()
 
 if __name__ == '__main__':
-    unittest.main()
+    test_merge_sort()
+    test_merge_sort2()
+
+

@@ -1,40 +1,52 @@
-import time, tracemalloc
-from lab2.utils import read_input, write_output
+import utils
+import os
 
-def merge_sort(lst):
-    if len(lst) <= 1:
-        return lst
-    mid = len(lst) // 2
-    left = merge_sort(lst[:mid])
-    right = merge_sort(lst[mid:])
-    return merge(left, right)
+def merge(A, p, q, r):
+    n1 = q - p + 1
+    n2 = r - q
 
-def merge(a, b):
-    result = []
-    i = j = 0
-    while i < len(a) and j < len(b):
-        if a[i] <= b[j]:
-            result.append(a[i])
+    L = [0] * (n1+1)
+    R = [0] * (n2+1)
+
+    for i in range(n1):
+        L[i] = A[p+i]
+    for j in range(n2):
+        R[j] = A[q+j+1]
+
+    i, j ,k = 0, 0, p
+    while i < n1 and j < n2:
+        if L[i] <= R[j]:
+            A[k] = L[i]
             i += 1
         else:
-            result.append(b[j])
+            A[k] = R[j]
             j += 1
-    result.extend(a[i:])
-    result.extend(b[j:])
-    return result
+        k +=1
 
-if __name__ == "__main__":
-    tracemalloc.start()
-    t_start = time.perf_counter()
+    while i < n1:
+        A[k] = L[i]
+        i += 1
+        k += 1
+    while j < n2:
+        A[k] = R[j]
+        j += 1
+        k += 1
 
-    n, arr = read_input("../txtf/input.txt")
-    sorted_arr = merge_sort(arr)
+def merge_sort(A, p, r):
+    if p < r:
+        q = (p + r) // 2
+        merge_sort(A, p, q)
+        merge_sort(A, q+1, r)
+        merge(A, p, q, r)
+    return A
 
-    write_output("../txtf/output.txt", sorted_arr)
+if __name__ == '__main__':
+    project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..'))
+    input_file_path = os.path.join(project_root, 'lab2', 'task1', 'txtf', 'input.txt')
+    data = utils.read_input(input_file_path)
+    result = merge_sort(data[1], 0, data[0]-1)
+    utils.print_task_data(2, 1, data, result)
 
-    print("Время работы: %s секунд" % (time.perf_counter() - t_start))
-    print("Max memory:", tracemalloc.get_traced_memory()[1] / 2 ** 20, "MB")
-    tracemalloc.stop()
 
 
 

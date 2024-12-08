@@ -26,6 +26,24 @@
 - **Markdown** — язык разметки для оформления документации
 
 ### Инструкция по запуску
+1. Клонируйте репозиторий:
+   ```bash
+   git clone https://github.com/naidaazizova/algosi.git
+   ```
+2. Перейдите в папку с проектом:
+   ```bash
+   cd algosi
+   ```
+3. **Запуск всех лабораторных**
 
+   ```bash
+   for script in lab*/*/src/*.py; do PYTHONPATH=$(pwd) python3 "$script"; done
+   ```
+
+4. **Запуск всех тестов**
+
+   ```bash
+   python3 -m pytest -v lab*/task*/tests/*.py
+   ```
 
 
