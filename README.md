@@ -45,7 +45,7 @@
 4. **Запуск всех тестов**
 
    ```bash
-   python3 -m pytest -v lab*/task*/tests/*.py
+   python3 -m unittest -v lab*/task*/tests/*.py
    ```
 
 
